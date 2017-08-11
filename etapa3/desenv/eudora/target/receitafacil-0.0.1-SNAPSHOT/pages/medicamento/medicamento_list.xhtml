@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+
+
+		<h:form role="form" id="form_select" prependId="false">
+			<section class="content-header">
+				<h1>Consulta Medicamento</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-medkit"></i> Medicamento</a></li>
+
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+
+				<div class="box box-info ">
+					<div class="box-body">
+
+
+						<div class="row">
+							<div class="col-md-5">
+								<div class="form-group">
+									<h:outputLabel value="Principio Ativo" />
+									<p:inputText styleClass="form-control"  value="#{medicamentoConsultBean.entity.txPrincipioAtivo}"/>
+
+
+								</div>
+
+							</div>
+
+							<div class="col-md-5">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Produto" />
+									<p:inputText styleClass="form-control" value="#{medicamentoConsultBean.entity.produto}"/>
+								</div>
+							</div>
+
+							<div class="col-md-5">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Laboratorio" />
+									<p:inputText styleClass="form-control" value="#{medicamentoConsultBean.entity.nmLaboratorio}"/>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Classe Terapeutica" />
+									<p:inputText styleClass="form-control" value="#{medicamentoConsultBean.entity.dsClasseTerapeutica}"/>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box-footer">
+
+
+								<p:commandButton styleClass="btn btn-info pull-right"
+									actionListener="#{medicamentoConsultBean.doPesquisar()}"
+									value="Pesquisar" style="margin-right:5px; width:90px" update="@form" />
+								<p:commandLink styleClass="btn btn-default pull-right"
+									value="Novo" action="pretty:medicamento_novo"
+									style="margin-right:5px; width:90px" />
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:dataTable style="padding-left:10px; padding-right:10px;"
+								styleClass="table table-bordered"
+								value="#{medicamentoConsultBean.resultList}" var="bean">
+								<p:column headerText="PRINCIPIO ATIVO"
+									sortBy="#{bean.txPrincipioAtivo}">
+									<h:outputText value="#{bean.txPrincipioAtivo}" />
+								</p:column>
+								<p:column headerText="PRODUTO">
+									<h:outputText value="#{bean.produto}" />
+								</p:column>
+								<p:column headerText="LABORATORIO">
+									<h:outputText value="#{bean.nmLaboratorio}" />
+								</p:column>
+								<p:column headerText="APRESENTAÇÃO">
+									<h:outputText value="#{bean.apresentacao}" />
+								</p:column>
+								<p:column headerText="CLASSE TERAPEUT.">
+									<h:outputText value="#{bean.dsClasseTerapeutica}" />
+								</p:column>
+								<p:column style="width:3%">
+									<p:commandLink title="Visualizar"
+										style="color:#00f; margin-right:2px"
+										action="#{medicamentoConsultBean.actionVisualizar(bean)}">
+										<i class="fa fa-eye"></i>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

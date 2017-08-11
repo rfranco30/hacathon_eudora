@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template_popup.xhtml">
+	<ui:define name="content">
+		<style>
+.ui-spinner-input {
+	width: 56px;
+}
+</style>
+
+		<h:form role="form" id="form_select" prependId="false">
+			<section class="content-header modalup"
+				style="margin-top: 50px; margin-left: -230px; background-color: #ecf0f5;">
+				<h1>Pré-Inscrição #{modeloPreInscricaotBean.principio?
+					modeloPreInscricaotBean.medicAnvisa.txPrincipioAtivo:modeloPreInscricaotBean.medicAnvisa.produto}</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-medkit"></i> Medicamento</a></li>
+
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content"
+				style="margin-left: -230px; background-color: #ecf0f5;">
+				<div class="box box-info ">
+					<div class="box-body">
+						<div class="row">
+
+							<div class="col-md-4">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Aplicar para:" />
+									<br />
+									<h:selectOneMenu value="#{modeloPreInscricaotBean.principio}"
+										styleClass="form-control" style="width: 100%">
+										<f:selectItem itemLabel="Principio Ativo" itemValue="true" />
+										<f:selectItem itemLabel="Produto" itemValue="false" />
+										<p:ajax update="@form" listener="#{modeloPreInscricaotBean.doSelectMedicamento()}"></p:ajax>
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+							<div class="col-md-8">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Apresentacao:" />
+									<h:selectOneMenu value="#{modeloPreInscricaotBean.entity.fkIdApresentacao}"
+										styleClass="form-control">
+										<f:selectItems value="#{receitaBean.listApresentacao}"
+												var="med" itemLabel="#{med.descricao}" itemValue="#{med.id}" />
+
+									</h:selectOneMenu>
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group ">
+									<h:outputLabel value="Uso" />
+
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group ">
+									<h:outputLabel value="Duração" />
+
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group ">
+									<h:outputLabel value="Via" />
+
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group ">
+									<h:outputLabel value="Complemento" />
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1">
+								<div class="form-group ">
+
+									<p:spinner min="0" style="width:70px !important"
+										value="#{modeloPreInscricaotBean.entity.qtd}" />
+
+								</div>
+							</div>
+							<div class="col-md-3">
+								<h:selectOneMenu
+									value="#{modeloPreInscricaotBean.entity.apresentacao2}"
+									styleClass="form-control">
+									<f:selectItem itemLabel="AMPOLA" />
+									<f:selectItem itemLabel="BISNAGA" />
+									<f:selectItem itemLabel="CAIXA" />
+									<f:selectItem itemLabel="CAPSULA" />
+									<f:selectItem itemLabel="COMPRIMIDO" />
+									<f:selectItem itemLabel="DOSE" />
+									<f:selectItem itemLabel="FRASCO" />
+									<f:selectItem itemLabel="ML" />
+
+								</h:selectOneMenu>
+							</div>
+							<div class="col-md-1">
+								<div class="form-group ">
+
+									<p:spinner min="0" style="width:70px !important"
+										value="#{modeloPreInscricaotBean.entity.qtdDuracao}" />
+
+								</div>
+							</div>
+							<div class="col-md-2">
+								<h:selectOneMenu
+									value="#{modeloPreInscricaotBean.entity.periodo}"
+									styleClass="form-control">
+									<f:selectItem itemLabel="SEGUNDO(S)" />
+									<f:selectItem itemLabel="MINUTO(S)" />
+									<f:selectItem itemLabel="DIA(S)" />
+									<f:selectItem itemLabel="SEMANA(S)" />
+									<f:selectItem itemLabel="MÊS(ES)" />
+									<f:selectItem itemLabel="ANO(S)" />
+								</h:selectOneMenu>
+							</div>
+							<div class="col-md-2">
+								<h:selectOneMenu value="#{modeloPreInscricaotBean.entity.via}"
+									styleClass="form-control">
+									<f:selectItem itemLabel="ORAL" />
+									<f:selectItem itemLabel="NASAL" />
+									<f:selectItem itemLabel="TOPICO" />
+									<f:selectItem itemLabel="VAGINAL" />
+									<f:selectItem itemLabel="RETAL" />
+									<f:selectItem itemLabel="OFTALMICO" />
+									<f:selectItem itemLabel="SUBLINGUAL" />
+									<f:selectItem itemLabel="SUBCUTANEA" />
+								</h:selectOneMenu>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group input-group-sm">
+
+									<p:inputText styleClass="form-control"
+										value="#{modeloPreInscricaotBean.entity.complemento}" />
+								</div>
+							</div>
+
+							<div class="col-md-5">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Observação" />
+									<p:inputTextarea styleClass="form-control"
+										value="#{modeloPreInscricaotBean.entity.obs}"></p:inputTextarea>
+								</div>
+							</div>
+							<div class="col-md-7">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Orientação" />
+									<p:inputTextarea styleClass="form-control"
+										value="#{modeloPreInscricaotBean.entity.orientaca}"></p:inputTextarea>
+								</div>
+							</div>
+						</div>
+
+						<h:commandButton styleClass="btn btn-success pull-right"
+							value="Salvar"
+							actionListener="#{modeloPreInscricaotBean.salvar()}"
+							style="margin-right:5px; width:90px">
+
+						</h:commandButton>
+					</div>
+				</div>
+
+			</section>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

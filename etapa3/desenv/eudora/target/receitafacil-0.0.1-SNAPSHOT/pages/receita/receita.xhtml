@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+
+		<style>
+.ui-spinner-input {
+	width: 56px;
+}
+</style>
+		<h:form role="form" id="form_select" prependId="false">
+			<script type="text/javascript">	
+$(function () {
+	 $(".select2").select2();
+	});
+</script>
+
+			<section class="content-header">
+				<h1>Receita</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-edit"></i> Receita</a></li>
+
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-info ">
+					<div class="box-body">
+						<div class="box-header with-border">
+							<h3 class="box-title">
+								<i class="fa fa-user"></i> Paciente
+							</h3>
+						</div>
+
+						<div class="row">
+
+							<div class="col-md-3">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="CPF" />
+									<div class="input-group input-group-sm">
+									<p:inputMask mask="999.999.999-99"
+												value="#{receitaBean.entity.paciente.cpf}" styleClass="form-control" />
+										
+										<span class="input-group-btn"> 
+										<h:commandLink
+												styleClass="btn btn-info " style="margin-left:-3px; border-top-left-radius:0px; border-bottom-left-radius: 0px; height:28px;"
+												actionListener="#{receitaBean.obterPaciente()}">
+												<i class="fa fa-search"></i>
+											</h:commandLink>
+
+										</span>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Nome" />
+									<p:inputText styleClass="form-control"
+										value="#{receitaBean.entity.paciente.nome}" />
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="box box-danger ">
+					<div class="box-body">
+						<div class="box-header with-border">
+							<h3 class="box-title">
+								<i class="fa fa-medkit"></i> Medicamento
+							</h3>
+						</div>
+						<p:outputPanel id="pnlMedicamento">
+							<div class="row">
+
+								<div class="col-md-2">
+									<div class="form-group ">
+										<h:outputLabel value="Filtro" />
+
+										<br />
+										<h:selectOneMenu value="#{receitaBean.principio}"
+											styleClass="form-control">
+											<f:selectItem itemLabel="Principio Ativo" itemValue="true" />
+											<f:selectItem itemLabel="Produto" itemValue="false" />
+											<p:ajax event="change" update="pnlMedicamento"
+												listener="#{receitaBean.doSelectTipo()}"></p:ajax>
+										</h:selectOneMenu>
+
+
+									</div>
+								</div>
+
+								<div class="col-md-5">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Descrição" />
+
+										<br />
+
+										<p:selectOneMenu rendered="#{receitaBean.principio}"
+											value="#{receitaBean.receitaMedicamento.idPrincipioAtivo}"
+											styleClass="form-control" filter="true" style="width: 100%"
+											autoWidth="false">
+											<f:selectItem itemLabel="Selecione" />
+											<f:selectItems value="#{receitaBean.listPrincipioAtivo}"
+												var="prin" itemLabel="#{prin.descricao}"
+												itemValue="#{prin.id}" />
+											<p:ajax event="change" update="pnlMedicamento"
+												listener="#{receitaBean.doSelectMedicamento()}"></p:ajax>
+										</p:selectOneMenu>
+
+										<p:selectOneMenu rendered="#{!receitaBean.principio}"
+											value="#{receitaBean.receitaMedicamento.idProduto}"
+											filter="true" style="width: 100%" autoWidth="false"
+											styleClass="form-control">
+											<f:selectItem itemLabel="Selecione" />
+											<f:selectItems value="#{receitaBean.listProduto}" var="prod"
+												itemLabel="#{prod.nome}" itemValue="#{prod.id}" />
+											<p:ajax event="change" update="pnlMedicamento"
+												listener="#{receitaBean.doSelectMedicamento()}"></p:ajax>
+										</p:selectOneMenu>
+
+
+									</div>
+								</div>
+
+								<div class="col-md-5">
+									<div class="form-group input-group-sm">
+
+										<h:outputLabel value="Apresentação" />
+										<p:selectOneMenu
+											value="#{receitaBean.receitaMedicamento.idApresentacao}"
+											filter="true" style="width: 100%" autoWidth="false"
+											styleClass="form-control">
+											<f:selectItems value="#{receitaBean.listApresentacao}"
+												var="med" itemLabel="#{med.descricao}" itemValue="#{med.id}" />
+											<p:ajax event="change" update="pnlMedicamento"
+												listener="#{receitaBean.doSelectMedicamento()}"></p:ajax>
+										</p:selectOneMenu>
+
+									</div>
+
+								</div>
+
+
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Uso" />
+
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Duração" />
+
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Via" />
+
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Complemento" />
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-1">
+									<div class="form-group input-group-sm">
+
+										<p:spinner min="0"
+											value="#{receitaBean.receitaMedicamento.qtd}"
+											style="width:70px !important" />
+
+									</div>
+								</div>
+								<div class="col-md-3">
+									<h:selectOneMenu styleClass="form-control"
+										value="#{receitaBean.receitaMedicamento.apresentacao2}">
+										<f:selectItem itemLabel="" />
+										<f:selectItem itemLabel="AMPOLA" itemValue="AMPOLA" />
+										<f:selectItem itemLabel="BISNAGA" itemValue="BISNAGA" />
+										<f:selectItem itemLabel="CAIXA" itemValue="CAIXA" />
+										<f:selectItem itemLabel="CAPSULA" itemValue="CAPSULA" />
+										<f:selectItem itemLabel="COMPRIMIDO" itemValue="COMPRIMIDO" />
+										<f:selectItem itemLabel="DOSE" itemValue="DOSE" />
+										<f:selectItem itemLabel="FRASCO" itemValue="FRASCO" />
+										<f:selectItem itemLabel="ML" itemValue="ML" />
+
+									</h:selectOneMenu>
+								</div>
+								<div class="col-md-1">
+									<div class="form-group input-group-sm">
+
+										<p:spinner min="0"
+											value="#{receitaBean.receitaMedicamento.qtd_duracao}"
+											style="width:70px !important" />
+
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h:selectOneMenu styleClass="form-control"
+										value="#{receitaBean.receitaMedicamento.periodo}">
+										<f:selectItem itemLabel="" />
+										<f:selectItem itemLabel="SEGUNDO(S)" itemValue="SEGUNDO(S)" />
+										<f:selectItem itemLabel="MINUTO(S)" itemValue="MINUTO(S)" />
+										<f:selectItem itemLabel="DIA(S)" itemValue="DIA(S)" />
+										<f:selectItem itemLabel="SEMANA(S)" itemValue="SEMANA(S)" />
+										<f:selectItem itemLabel="MÊS(ES)" itemValue="MÊS(ES)" />
+										<f:selectItem itemLabel="ANO(S)" itemValue="ANO(S)" />
+									</h:selectOneMenu>
+								</div>
+								<div class="col-md-2">
+									<h:selectOneMenu styleClass="form-control"
+										value="#{receitaBean.receitaMedicamento.via}">
+										<f:selectItem itemLabel="" />
+										<f:selectItem itemLabel="ORAL" itemValue="ORAL" />
+										<f:selectItem itemLabel="NASAL" itemValue="NASAL" />
+										<f:selectItem itemLabel="TOPICO" itemValue="TOPICO" />
+										<f:selectItem itemLabel="VAGINAL" itemValue="VAGINAL" />
+										<f:selectItem itemLabel="RETAL" itemValue="RETAL" />
+										<f:selectItem itemLabel="OFTALMICO" itemValue="OFTALMICO" />
+										<f:selectItem itemLabel="SUBLINGUAL" itemValue="SUBLINGUAL" />
+										<f:selectItem itemLabel="SUBCUTANEA" itemValue="SUBCUTANEA" />
+									</h:selectOneMenu>
+								</div>
+
+								<div class="col-md-3">
+									<div class="form-group input-group-sm">
+
+										<p:inputText styleClass="form-control"
+											value="#{receitaBean.receitaMedicamento.complemento}" />
+									</div>
+								</div>
+
+								<div class="col-md-5">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Observação" />
+										<p:inputTextarea styleClass="form-control"
+											value="#{receitaBean.receitaMedicamento.observacao}"></p:inputTextarea>
+									</div>
+								</div>
+								<div class="col-md-7">
+									<div class="form-group input-group-sm">
+										<h:outputLabel value="Orientação" />
+										<p:inputTextarea styleClass="form-control"
+											value="#{receitaBean.receitaMedicamento.orientacoes}"></p:inputTextarea>
+									</div>
+								</div>
+							</div>
+							<p:outputPanel id="modelos">
+								<div class="row">
+									<div class="col-md-12">
+										<h:outputLabel value="Modelo de Pré-inscrição" rendered="#{receitaBean.modelos.size() ne 0}"/>
+										<p:dataTable var="recMed" value="#{receitaBean.modelos}"
+											styleClass="table table-bordered"
+											rowKey="#{recMed.id}"
+											selection="#{receitaBean.selectModelos}"
+											rendered="#{receitaBean.modelos.size() ne 0}"
+											emptyMessage="Nenhum modelo encontrado">
+											
+											<p:ajax event="rowSelectCheckbox" global="false" listener="#{receitaBean.onSelectModelo}" update="pnlMedicamento"/>
+											<p:ajax event="rowUnselectCheckbox" global="false" listener="#{receitaBean.onSelectModelo}"  update="pnlMedicamento"/>
+											<p:ajax event="rowSelect" global="false" listener="#{receitaBean.onSelectModelo}"  update="pnlMedicamento"/>
+											<p:ajax event="rowUnselect" global="false" listener="#{receitaBean.onSelectModelo}"  update="pnlMedicamento"/>
+											<p:ajax event="toggleSelect" global="false" listener="#{receitaBean.onSelectModelo}"  update="pnlMedicamento" />
+											
+											<p:column selectionMode="multiple"
+												style="width:5%;text-align:center" />
+											<p:column headerText="Nome">
+												<h:outputText value="#{recMed.descricao}" />
+
+											</p:column>
+											<p:column headerText="Principio Ativo/Produto">
+												<h:outputText value="#{recMed.apresentacao}" />
+												<h:outputText value="#{recMed.apresentacao}" />
+											</p:column>
+											<p:column headerText="Uso" style="width:35%">
+												<h:outputText
+													value="#{recMed.qtd}  #{recMed.apresentacao2}  -  POR #{recMed.qtdDuracao} #{recMed.periodo} VIA #{recMed.via}  #{recMed.complemento}" />
+											</p:column>
+
+											<p:column headerText="" style="text-align:center; width:50px">
+
+
+											</p:column>
+											<p:column style="width:30px" styleClass="center">
+												<p:rowToggler />
+											</p:column>
+											<p:rowExpansion>
+												<p:outputPanel autoUpdate="true">
+													<div class="col-xs-12 col-sm-12">
+														<p:dataTable value="" styleClass="table table-bordered">
+
+															<p:column headerText="Observações" style="width:40%">
+																<h:outputText value="#{recMed.obs}" />
+															</p:column>
+
+															<p:column headerText="Orientacão">
+																<h:outputText value="#{recMed.orientaca}" />
+															</p:column>
+														</p:dataTable>
+													</div>
+												</p:outputPanel>
+											</p:rowExpansion>
+										</p:dataTable>
+									</div>
+								</div>
+							</p:outputPanel>
+
+							<div class="row">
+								<div class="col-md-12">
+
+
+									<p:commandLink value="+Adicionar"
+										update="listMedicamento pnlMedicamento"
+										process="pnlMedicamento" styleClass="pull-right"
+										actionListener="#{receitaBean.doAddMedicacao()}" />
+									<br /> <br /> <br />
+
+								</div>
+							</div>
+						</p:outputPanel>
+						<p:outputPanel id="listMedicamento">
+							<div class="row">
+								<div class="col-md-12">
+								<h:outputLabel value="Pré-inscrição" rendered="#{receitaBean.entity.receitaMedicamentos ne null}"/>
+									<p:dataTable var="recMed"
+										value="#{receitaBean.entity.receitaMedicamentos}"
+										styleClass="table table-bordered"
+										rendered="#{receitaBean.entity.receitaMedicamentos ne null}">
+										<p:column headerText="Principio Ativo/Produto">
+											<h:outputText value="#{recMed.principioAtivo}" />
+											<h:outputText value="#{recMed.produto}" />
+										</p:column>
+
+										<p:column headerText="Apresentação">
+											<h:outputText value="#{recMed.apresentacao}" />
+										</p:column>
+
+										<p:column headerText="Uso" style="width:35%">
+											<h:outputText
+												value="#{recMed.qtd}  #{recMed.apresentacao2}  -  POR #{recMed.qtd_duracao} #{recMed.periodo} VIA #{recMed.via}  #{recMed.complemento}" />
+										</p:column>
+
+										<p:column headerText="" style="text-align:center; width:50px">
+											<h:commandLink style="color:#f00; margin-right:2px">
+												<i class="fa fa-close"></i>
+											</h:commandLink>
+											<h:commandLink style="color:#00e">
+												<i class="fa fa-pencil"></i>
+											</h:commandLink>
+										</p:column>
+										<p:column style="width:30px" styleClass="center">
+											<p:rowToggler />
+										</p:column>
+										<p:rowExpansion>
+											<p:outputPanel autoUpdate="true">
+												<div class="col-xs-12 col-sm-12">
+													<p:dataTable value="" styleClass="table table-bordered">
+
+														<p:column headerText="Observações" style="width:40%">
+															<h:outputText value="#{recMed.observacao}" />
+														</p:column>
+
+														<p:column headerText="Orientacão">
+															<h:outputText value="#{recMed.orientacoes}" />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</p:outputPanel>
+										</p:rowExpansion>
+
+									</p:dataTable>
+								</div>
+							</div>
+						</p:outputPanel>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box-footer">
+									<h:commandButton styleClass="btn btn-default"
+										action="#{receitaBean.returnHome()}" value="Cancelar" />
+									<h:commandButton actionListener="#{receitaBean.doImprimir()}"
+										styleClass="btn btn-info pull-right" style="margin-left: 5px;"
+										value="Imprimir" onclick="this.form.target='_blank'"
+										update="form_select" />
+
+									
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<p:dialog header="Receita" widgetVar="dlReceita" modal="true"
+					id="recd" height="500" width="900">
+					<!-- 					<pe:documentViewer height="500" value="#{receitaBean.pdf}" /> -->
+				</p:dialog>
+
+			</section>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

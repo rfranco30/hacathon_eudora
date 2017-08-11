@@ -1,0 +1,105 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+
+
+		<h:form role="form" id="form_select" rependId="false">
+
+			<script type="text/javascript">
+$(function () {
+	 $(".select2").select2();
+	$("._somenteNumero").bind("keyup blur focus", function(e) {
+		      e.preventDefault();
+		      var expre = /[^\d]/g;
+		      $(this).val($(this).val().replace(expre,''));
+		 });});</script>
+
+
+			<section class="content-header">
+				<h1>Paciente</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-user"></i> Paciente</a></li>
+
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-info ">
+					<div class="box-body">
+
+
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<h:outputLabel value="CPF" />
+
+									<p:inputMask mask="999.999.999-99"
+										value="#{pacienteBean.entity.cpf}" styleClass="form-control" />
+
+
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Nome" />
+									<p:inputText value="#{pacienteBean.entity.nome}"
+										styleClass="form-control" />
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box-footer">
+
+
+								<h:commandButton styleClass="btn btn-info pull-right"
+									value="Pesquisar"  style="margin-right:5px; width:90px"/>
+								<h:commandLink styleClass="btn btn-default pull-right"
+									value="Novo" action="#{pacienteConsultaBean.actionNovo()}" style="margin-right:5px; width:90px" />
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<p:dataTable style="padding-left:10px; padding-right:10px;"
+								styleClass="table table-bordered">
+								<p:column headerText="NOME">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="DOCUMENTO">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="IDADE">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="PLANO">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="AÇÃO" style="width:10%">
+									<h:outputText value="" />
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</div>
+			</section>
+		</h:form>
+	</ui:define>
+</ui:composition>

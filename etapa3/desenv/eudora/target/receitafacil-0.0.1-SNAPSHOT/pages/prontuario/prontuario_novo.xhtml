@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+
+
+		<h:form role="form" id="form_select" prependId="false">
+			<section class="content-header">
+				<h1>Cadastro Prontuário</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-edit"></i> Prontuário</a> > Cadastro</li>
+
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-info ">
+					<div class="box-body">
+						<div class="box-header with-border">
+							<h3 class="box-title">
+								<i class="fa fa-user"></i> Paciente
+							</h3>
+						</div>
+
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<h:outputLabel value="CPF" />
+									<div class="input-group input-group-sm">
+										<h:inputText value="" styleClass="form-control" />
+										<span class="input-group-btn"> <h:commandLink
+												styleClass="btn btn-info ">
+												<i class="fa fa-search"></i>
+											</h:commandLink>
+
+										</span>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Nome" />
+									<p:inputText value="" styleClass="form-control" />
+								</div>
+							</div>
+
+							<div class="col-md-2">
+								<div class="form-group ">
+									<h:outputLabel value="Sexo" />
+
+									<h:selectOneMenu value="" styleClass="form-control ">
+										<f:selectItem itemLabel="Feminino" />
+										<f:selectItem itemLabel="Masculino" />
+									</h:selectOneMenu>
+
+								</div>
+							</div>
+
+							<div class="col-md-2">
+								<div class="form-group ">
+									<h:outputLabel value="Dt. Nascimento" />
+									<br />
+
+									<p:calendar styleClass="w6fw-ui-dade" pattern="dd-MM-yyyy" />
+
+
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-md-7">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Queixa" />
+									<p:inputTextarea styleClass="form-control"></p:inputTextarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box-footer">
+
+									<button type="submit" class="btn btn-success pull-right">
+										<i class="fa fa-stethoscope"></i> Iniciar Consulta
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="box box-danger ">
+					<div class="box-body">
+						<div class="box-header with-border">
+							<h3 class="box-title">
+								<i class="fa fa-stethoscope"></i> Consulta Iniciada 23/10/2016 20:50
+							</h3>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group input-group-sm">
+									<h:outputLabel value="Anotação" />
+									<p:inputTextarea styleClass="form-control"></p:inputTextarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box-footer">
+									<h:commandButton action="#{pacienteBean.returnHome()}" value="Cancelar" />
+
+									<h:link outcome="/pages/receita/receita" styleClass="btn btn-success pull-right "
+										style="margin-left: 5px;">
+										<i class="fa fa-edit"></i> Gerar Receita
+									</h:link>
+									<button type="submit" class="btn btn-success pull-right">
+										<i class="fa fa-stethoscope"></i> Finalizar Consulta
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
